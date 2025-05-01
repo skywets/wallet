@@ -1,8 +1,8 @@
-# Разработка перевод денег
+# Разработка кошелёк для переводов
 
 ## Introduction
 
-Разработать RESTful-приложение для перевода денег ( https://openweathermap.org/api )
+Разработать RESTful-приложение кошелёк
 
 ## Contents
 
@@ -12,11 +12,11 @@
 
 
 ## Used-technologies
-Java 17
-Spring Boot 3.3.4
-База данных PostgreSQL
-Docker-compose
-Swagger
+- Java 17
+- Spring Boot 3.3.4
+- База данных PostgreSQL
+- Docker-compose
+- Swagger
 
 
 ## Start-up
