@@ -42,7 +42,8 @@ public class WalletServiceImpl implements WalletService {
     @Transactional
     @Override
     public void updateBalance(WalletDto walletDto) {
-        Wallet wallet = getByIdOrElseThrow(walletDto.getWalletId());
+        Wallet wallet = walletRepository.findByIdAndLock(walletDto.getWalletId())
+                                        .orElseThrow(() -> new NotFoundException("The Wallet doesn't exist"));
         if ("DEPOSIT".equals(walletDto.getOperationType())) {
             wallet.setBalance(wallet.getBalance().add(walletDto.getAmount()));
         } else if ("WITHDRAW".equals(walletDto.getOperationType())) {
@@ -63,6 +64,7 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Override
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     public WalletDto findByid(Long id) {
         return mapperDto.mapToDto(getByIdOrElseThrow(id));
     }
@@ -72,8 +74,6 @@ public class WalletServiceImpl implements WalletService {
         return mapperDto.maptoDto(walletRepository.findAll());
     }
 
-
-    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Wallet getByIdOrElseThrow(Long id) {
         return walletRepository.findById(id).orElseThrow(
                 () -> new NotFoundException("The Wallet doesn't exist"));
