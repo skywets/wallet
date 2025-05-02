@@ -12,9 +12,7 @@ import java.util.Optional;
 @Repository
 public interface WalletRepository extends CrudRepository<Wallet, Long> {
 
-    @Modifying
     @Query("select w from Wallet w where w.walletId = :id")
-    @Lock(LockModeType.PESSIMISTIC_WRITE)
     Optional<Wallet> findByIdAndLock(@Param("id") Long id);
 
 }
