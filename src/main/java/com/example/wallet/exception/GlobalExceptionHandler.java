@@ -31,6 +31,11 @@ public class GlobalExceptionHandler {
             errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(404), exception.getLocalizedMessage());
             errorDetail.setProperty("Description", "Request to the wrong path or with an error in the URL");
         }
+        
+        if (exception instanceof NotFoundException) {
+            errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(404), exception.getMessage());
+            errorDetail.setProperty("Description", "The Wallet doesn't exist");
+        }
 
         if (exception instanceof MethodNotAllowedException || exception instanceof HttpRequestMethodNotSupportedException
                 || exception instanceof MethodArgumentTypeMismatchException) {
@@ -41,11 +46,6 @@ public class GlobalExceptionHandler {
         if (exception instanceof IncorrectDataEntryException) {
             errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(409), exception.getMessage());
             errorDetail.setProperty("Description", "Incorrect data entry");
-        }
-
-        if (exception instanceof NotFoundException) {
-            errorDetail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(409), exception.getMessage());
-            errorDetail.setProperty("Description", "The Wallet doesn't exist");
         }
 
         return errorDetail;
